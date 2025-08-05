@@ -1,0 +1,13 @@
+import mysql from 'mysql2/promise';
+
+const pool = mysql.createPool({
+  host: 'localhost',
+  user: 'root',
+  password: 'n3u3da!',
+  database: 'sync_financial_data',
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
+});
+
+export default pool;
