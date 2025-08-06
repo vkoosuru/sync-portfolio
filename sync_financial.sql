@@ -18,10 +18,5 @@ amount decimal(15,2) not null,
 timestamp timestamp default current_timestamp
 );
 
-INSERT INTO settlement_account (amount) VALUES (10000.00);
-
-select * from settlement_account;
-
-truncate settlement_account;
 
 
