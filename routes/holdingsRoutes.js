@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.get('/', getHoldingsHandler);
 router.post('/add', buyStockHandler);
-router.delete('/remove', sellStockHandler);
+router.post('/remove', sellStockHandler);
 
 export default router;

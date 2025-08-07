@@ -1,0 +1,297 @@
+openapi: 3.0.4
+info:
+  title: Sync Stock Portfolio API
+  description: API for managing stock portfolios, including account balances, stock trading, and transaction history.
+  contact:
+    email: vardhinikoosuru40@gmail.com
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Local server
+tags:
+  - name: account
+    description: Manage account balance
+  - name: holdings
+    description: Manage stock holdings
+  - name: transactions
+    description: View transaction history
+paths:
+  /account:
+    get:
+      tags:
+        - account
+      summary: Get account balance
+      operationId: getBalance
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResponse'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /account/add:
+    post:
+      tags:
+        - account
+      summary: Add funds
+      operationId: addMoney
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FundsRequest'
+        required: true
+      responses:
+        '200':
+          description: Funds added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FundsResponse'
+        '400':
+          description: Invalid amount
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /account/withdraw:
+    post:
+      tags:
+        - account
+      summary: Withdraw funds
+      operationId: withdrawMoney
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FundsRequest'
+        required: true
+      responses:
+        '200':
+          description: Funds withdrawn
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FundsResponse'
+        '400':
+          description: Invalid amount or insufficient funds
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /holdings:
+    get:
+      tags:
+        - holdings
+      summary: Get all holdings
+      operationId: getHoldings
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Holding'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /holdings/add:
+    post:
+      tags:
+        - holdings
+      summary: Buy stock
+      operationId: addHolding
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HoldingRequest'
+        required: true
+      responses:
+        '200':
+          description: Stock bought
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Stock bought
+        '400':
+          description: Invalid input or insufficient funds
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /holdings/remove:
+    post:
+      tags:
+        - holdings
+      summary: Sell stock
+      operationId: removeHolding
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HoldingRequest'
+        required: true
+      responses:
+        '200':
+          description: Stock sold
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Stock sold
+        '400':
+          description: Invalid input or insufficient quantity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /transactions:
+    get:
+      tags:
+        - transactions
+      summary: Get transaction history
+      operationId: getTransactions
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    BalanceResponse:
+      type: object
+      properties:
+        balance:
+          type: number
+          example: 1802.00
+      required:
+        - balance
+    FundsRequest:
+      type: object
+      properties:
+        amount:
+          type: number
+          example: 500.00
+      required:
+        - amount
+    FundsResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Successfully added 500
+        previous_balance:
+          type: number
+          example: 1302.00
+        new_balance:
+          type: number
+          example: 1802.00
+      required:
+        - message
+        - previous_balance
+        - new_balance
+    Holding:
+      type: object
+      properties:
+        ticker:
+          type: string
+          example: FB
+        quantity:
+          type: integer
+          example: 10
+        buy_price:
+          type: number
+          example: 202.50
+        current_price:
+          type: string
+          example: 205.00
+        pnl:
+          type: string
+          example: 1.23%
+      required:
+        - ticker
+        - quantity
+        - buy_price
+    HoldingRequest:
+      type: object
+      properties:
+        ticker:
+          type: string
+          enum: [C, AMZN, TSLA, FB, AAPL] # Changed META to FB
+          example: FB
+        quantity:
+          type: integer
+          example: 10
+        price:
+          type: number
+          example: 202.50
+      required:
+        - ticker
+        - quantity
+        - price
+    Transaction:
+      type: object
+      properties:
+        transaction_id:
+          type: integer
+          example: 1
+        ticker:
+          type: string
+          example: FB
+        quantity:
+          type: integer
+          example: 1
+        price:
+          type: number
+          example: 200.00
+        action:
+          type: string
+          enum: [BUY, SELL]
+          example: BUY
+        total_amount:
+          type: number
+          example: 200.00
+      required:
+        - transaction_id
+        - ticker
+        - quantity
+        - price
+        - action
+        - total_amount
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Invalid ticker
+      required:
+        - error

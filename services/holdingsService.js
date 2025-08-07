@@ -25,7 +25,7 @@ export async function getHoldings() {
 }
 
 export async function buyStock(ticker, quantity, price) {
-  const validTickers = ['C', 'AMZN', 'TSLA', 'META', 'AAPL'];
+  const validTickers = ['C', 'AMZN', 'TSLA', 'FB', 'AAPL'];
   if (!validTickers.includes(ticker)) {
     throw new Error('Invalid ticker');
   }
@@ -75,7 +75,7 @@ export async function buyStock(ticker, quantity, price) {
 }
 
 export async function sellStock(ticker, quantity, price) {
-  const validTickers = ['C', 'AMZN', 'TSLA', 'META', 'AAPL'];
+  const validTickers = ['C', 'AMZN', 'TSLA', 'FB', 'AAPL'];
   if (!validTickers.includes(ticker)) {
     throw new Error('Invalid ticker');
   }
