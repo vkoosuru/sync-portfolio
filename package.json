@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "type": "module",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
-  },
+"scripts": {
+  "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --runInBand",
+  "test:coverage": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --coverage",
+  "start": "node app.js"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vkoosuru/sync-portfolio.git"
