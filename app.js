@@ -10,4 +10,8 @@ app.use('/holdings', holdingsRoutes);
 app.use('/transactions', transactionsRoutes);
 app.use('/account', accountRoutes);
 
-app.listen(3000, () => console.log('Server started on port 3000'));
+export default app; // ✅ This allows Jest to use the app without starting the server
+
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(3000, () => console.log('Server started on port 3000'));
+}
