@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "type": "module",
-"scripts": {
-  "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --runInBand",
-  "test:coverage": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --coverage",
-  "start": "node app.js"
-},
+  "scripts": {
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --runInBand",
+    "test:coverage": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --coverage",
+    "start": "node app.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vkoosuru/sync-portfolio.git"
@@ -24,5 +24,10 @@
     "axios": "^1.11.0",
     "express": "^5.1.0",
     "mysql2": "^3.14.3"
+  },
+  "devDependencies": {
+    "cross-env": "^10.0.0",
+    "jest": "^30.0.5",
+    "supertest": "^7.1.4"
   }
 }
